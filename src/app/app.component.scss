@@ -1,0 +1,71 @@
+mat-toolbar {
+	background: linear-gradient(90deg, #1e3c72, #2a5298);
+	/* Sleek gradient */
+	color: white;
+	font-family: 'Inter', sans-serif;
+	padding: 0 24px;
+	height: 70px;
+	display: flex;
+	align-items: center;
+
+	button[mat-button] {
+		font-size: 15px;
+		font-weight: 600;
+		text-transform: capitalize;
+		color: rgba(255, 255, 255, 0.87);
+		/* Subtle text color */
+		margin: 0 12px;
+		border: none;
+		position: relative;
+		padding: 8px 16px;
+		transition: all 0.3s ease-in-out;
+
+		&:hover {
+			color: #fff;
+			/* Highlighted white */
+			background: rgba(255, 255, 255, 0.1);
+		}
+
+		&.active {
+			color: #ffffff;
+			font-weight: 700;
+		}
+
+		/* Add a sleek underline for active and hover states */
+		&::after {
+			content: '';
+			display: block;
+			position: absolute;
+			bottom: 8px;
+			left: 0;
+			width: 0;
+			height: 1px;
+			background: linear-gradient(to right, transparent, currentColor, transparent); // Gradient effect
+			transition: opacity 0.3s ease, transform 0.3s ease; // Smooth hover effect
+
+		}
+
+		&:hover::after,
+		&.active::after {
+			width: 100%;
+		}
+	}
+
+	/* Responsive toolbar spacing */
+	@media screen and (max-width: 768px) {
+		button[mat-button] {
+			font-size: 14px;
+			margin: 0 8px;
+			padding: 6px 12px;
+		}
+	}
+}
+
+.main-div {
+	// padding: 32px;
+	background: white;
+	min-height: calc(100vh - 135px);
+	/* Adjust based on toolbar height */
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+	/* Soft inner shadow */
+}
