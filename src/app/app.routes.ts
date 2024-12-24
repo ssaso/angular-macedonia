@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { TeamsComponent } from './components/teams/teams.component';
-import { PlayersComponent } from './components/players/players.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +13,16 @@ export const routes: Routes = [
   },
   {
     path: 'players',
-    component: PlayersComponent,
+    loadComponent: () =>
+      import('./components/players/players.component').then(
+        (m) => m.PlayersComponent
+      ),
+  },
+  {
+    path: 'tree-selector',
+    loadComponent: () =>
+      import('./components/tree-selector/tree-selector.component').then(
+        (m) => m.TreeSelectorComponent
+      ),
   },
 ];
