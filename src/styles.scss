@@ -9,3 +9,13 @@ body {
 	margin: 0;
 	font-family: 'Segoe UI', "Helvetica Neue", sans-serif;
 }
+
+
+.breadcrumb {
+	margin-right: 8px;
+
+	&.active {
+		color: rgba(10, 90, 209, 0.685);
+		font-weight: 500;
+	}
+}

@@ -1,0 +1,17 @@
+<div class="main-div">
+	<ng-container *ngIf="isLoading; else countriesList">
+		<div class="loading-container">
+			<div class="loading-spineer"></div>
+			<p class="loading-text"> Loading countries, please wait...</p>
+		</div>
+	</ng-container>
+
+	<ng-template #countriesList>
+		<h3>Select a Country</h3>
+		<mat-list>
+			<mat-list-item *ngFor="let country of countries" (click)="selectCountry(country)">
+				{{country}}
+			</mat-list-item>
+		</mat-list>
+	</ng-template>
+</div>

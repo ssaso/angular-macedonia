@@ -17,12 +17,15 @@ export const routes: Routes = [
       import('./components/players/players.component').then(
         (m) => m.PlayersComponent
       ),
+    data: { breadcrumb: 'Players' },
   },
+
   {
     path: 'tree-selector',
     loadComponent: () =>
       import('./components/tree-selector/tree-selector.component').then(
         (m) => m.TreeSelectorComponent
       ),
+    data: { breadcrumb: 'Tree Selector' },
   },
 ];
