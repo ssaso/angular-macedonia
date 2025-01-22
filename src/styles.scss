@@ -19,3 +19,10 @@ body {
 		font-weight: 500;
 	}
 }
+
+
+.mat-mdc-list-item:not(.mat-mdc-list-item-interactive),
+.mat-mdc-list-option:not(.mat-mdc-list-item-interactive),
+.pointer {
+	cursor: pointer !important;
+}

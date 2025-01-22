@@ -1,21 +1,34 @@
 <mat-toolbar class="breadcrumb-toolbar">
 	<nav>
-		<span class="breadcrumb" [class.active]="!selectedContry" (click)="resetSelection()"> Country</span>
+		<!-- [ngClass]="{ 'pointer' : selectedContry, 'active': !selectedContry}" -->
+		<span class="breadcrumb" [class.active]="!selectedContry" [class.pointer]="selectedContry"
+			(click)="resetSelection()">
+			Country</span>
 		@if (selectedContry) {
 		<span class="breadcrumb"> &gt;</span>
-		<span class="breadcrumb" [class.active]="!selectedYear"> {{selectedContry}}</span>
+		<span class="breadcrumb" [class.active]="selectedContry && !selectedMonth"> {{selectedContry}}</span>
+		<span class="breadcrumb" *ngIf="selectedMonth"> &gt;</span>
+		<span class="breadcrumb" [class.active]="selectedMonth"> {{selectedMonth}}</span>
 		}
-		@if (selectedYear) {
+		<!-- @if (selectedYear) {
 		<span class="breadcrumb"> &gt;</span>
 		<span class="breadcrumb"> {{selectedYear}}</span>
-		}
+		} -->
 	</nav>
 </mat-toolbar>
 <div class="content-wrapper">
 	<!-- Country selector -->
 	<ng-container *ngIf="!selectedContry">
-		<app-country-selector (countrySelectedX)="onCountrySelected($event)"></app-country-selector>
+		<app-country-selector (countrySelected)="onCountrySelected($event)"></app-country-selector>
+	</ng-container>
+	<!-- Month selector -->
+	<ng-container *ngIf="selectedContry && !selectedMonth">
+		<app-month-selector (monthSelected)="onMonthSelected($event)" [country]="selectedContry"></app-month-selector>
+	</ng-container>
 
+	<!-- Transaction selector -->
+	<ng-container *ngIf="selectedContry && selectedMonth">
+		Add transaction component here
 	</ng-container>
 
 </div>

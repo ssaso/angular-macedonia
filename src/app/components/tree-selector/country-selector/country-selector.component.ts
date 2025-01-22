@@ -10,7 +10,7 @@ import { CountriesService } from '../../../services/countries.service';
   styleUrl: './country-selector.component.scss',
 })
 export class CountrySelectorComponent {
-  @Output() countrySelectedX = new EventEmitter<string>();
+  @Output() countrySelected = new EventEmitter<string>();
 
   countries = ['USA', 'Canada', 'Mexico'];
   isLoading = true;
@@ -25,6 +25,6 @@ export class CountrySelectorComponent {
   }
 
   selectCountry(country: string) {
-    this.countrySelectedX.emit(country);
+    this.countrySelected.emit(country);
   }
 }
