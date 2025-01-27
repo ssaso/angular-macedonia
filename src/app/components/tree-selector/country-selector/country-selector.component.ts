@@ -18,6 +18,7 @@ export class CountrySelectorComponent {
   constructor(private countryService: CountriesService) {}
 
   ngOnInit(): void {
+    console.log('Ng on Init for CountrySelectorComponent');
     this.countryService.fetchCountries().subscribe((countries) => {
       this.countries = countries;
       this.isLoading = false;

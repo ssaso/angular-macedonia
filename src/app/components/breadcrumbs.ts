@@ -37,6 +37,7 @@ import { filter, map } from 'rxjs/operators';
     `,
   ],
 })
+
 export class BreadcrumbsComponent {
   breadcrumbs: Array<{ label: string; url: string }> = [];
 
