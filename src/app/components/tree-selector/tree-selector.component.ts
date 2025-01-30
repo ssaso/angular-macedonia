@@ -6,10 +6,11 @@ import {
   months,
   MonthSelectorComponent,
 } from './month-selector/month-selector.component';
-import { DataSource } from '@angular/cdk/collections';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { ReplaySubject, Observable } from 'rxjs';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 // #region table component
 export interface PeriodicElement {
@@ -17,6 +18,17 @@ export interface PeriodicElement {
   position: number;
   weight: number;
   symbol: string;
+}
+
+export interface TransactionModel {
+  // Ime, datum,
+  // In Use - boolean
+  statement: StatementEnum;
+}
+
+export enum StatementEnum {
+  VS = 'Visa',
+  MS = 'Mastercard',
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -43,6 +55,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MonthSelectorComponent,
     MatTableModule,
     MatButtonModule,
+    MatCheckboxModule,
   ],
   templateUrl: './tree-selector.component.html',
   styleUrl: './tree-selector.component.scss',
@@ -59,6 +72,7 @@ export class TreeSelectorComponent {
   onCountrySelected(country: string) {
     console.log('onCountrySelected', country);
     this.selectedContry = country;
+    this.selectedTransaction = undefined;
   }
 
   onMonthSelected(month: string) {
@@ -69,11 +83,24 @@ export class TreeSelectorComponent {
     this.selectedMonth = month;
   }
 
-  // #region table component
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  // #transaction table component
+  selectedTransaction: PeriodicElement | undefined;
+
+  // transactionModel = typeof TransactionModel;
+
+  nameClick(transactionInterface: StatementEnum) {}
+
+  displayedColumns: string[] = [
+    'select',
+    'position',
+    'name',
+    'weight',
+    'symbol',
+  ];
   dataToDisplay = [...ELEMENT_DATA];
 
-  dataSource = new ExampleDataSource(this.dataToDisplay);
+  // dataSource = new ExampleDataSource(this.dataToDisplay);
+  dataSource = new MatTableDataSource<PeriodicElement>(this.dataToDisplay);
 
   addData() {
     const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
@@ -81,13 +108,61 @@ export class TreeSelectorComponent {
       ...this.dataToDisplay,
       ELEMENT_DATA[randomElementIndex],
     ];
-    this.dataSource.setData(this.dataToDisplay);
+    this.dataSource.data = [...ELEMENT_DATA];
   }
 
   removeData() {
-    this.dataToDisplay = this.dataToDisplay.slice(0, -1);
-    this.dataSource.setData(this.dataToDisplay);
+    console.log(this.selection.selected[0]);
+
+    let index = this.dataSource.data.indexOf(this.selection.selected[0]);
+    this.dataSource.data.splice(index, 1);
+    this.dataSource.data = [...this.dataSource.data];
+
+    this.selection.clear();
+
+    // this.dataToDisplay = this.dataToDisplay.slice(0, -1);
+    // this.dataSource.setData(this.dataToDisplay);
   }
+
+  // Selection
+  selection = new SelectionModel<PeriodicElement>(true, []);
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: PeriodicElement): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.position + 1
+    }`;
+  }
+
+  nashaFunkcija(row: PeriodicElement) {
+    console.log('Nasha funkcija: ', row);
+    this.selectedTransaction = row;
+
+    this.nameClick(StatementEnum.MS);
+
+    // this.selection.toggle(row);
+  }
+  // end selection
 }
 
 class ExampleDataSource extends DataSource<PeriodicElement> {
