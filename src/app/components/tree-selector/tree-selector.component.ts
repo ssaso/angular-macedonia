@@ -11,6 +11,9 @@ import { ReplaySubject, Observable } from 'rxjs';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 // #region table component
 export interface PeriodicElement {
@@ -56,6 +59,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatTableModule,
     MatButtonModule,
     MatCheckboxModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './tree-selector.component.html',
   styleUrl: './tree-selector.component.scss',
@@ -63,6 +69,16 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class TreeSelectorComponent {
   selectedContry!: string;
   selectedMonth!: string;
+
+  transactionForm = new FormGroup({
+    name: new FormControl(''),
+    weight: new FormControl(''),
+    symbol: new FormControl(''),
+  });
+
+  get f() {
+    return this.transactionForm.controls;
+  }
 
   resetSelection() {
     this.selectedContry = '';

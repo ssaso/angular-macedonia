@@ -9,6 +9,7 @@
 		<span class="breadcrumb" [class.active]="selectedContry && !selectedMonth"> {{selectedContry}}</span>
 		<span class="breadcrumb" *ngIf="selectedMonth"> &gt;</span>
 		<span class="breadcrumb" [class.active]="selectedMonth"> {{selectedMonth}}</span>
+
 		<!-- Add breadcrumb  >  -->
 		}
 		<!-- @if (selectedYear) {
@@ -36,6 +37,27 @@
 			<button mat-raised-button [disabled]="!dataToDisplay.length" (click)="removeData()" class="demo-button">
 				Remove data
 			</button>
+		</div>
+
+		<div>
+			<form [formGroup]="transactionForm">
+				<!-- <label for="first-name">Name: </label>
+				<input id="first-name" type="text" formControlName="name"> -->
+				<mat-form-field>
+					<mat-label>Input</mat-label>
+					<input matInput [formControl]="f.name" [placeholder]="'Enter name'">
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Weight</mat-label>
+					<input matInput [formControl]="f.weight" [placeholder]="'Enter weight'">
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Symbol</mat-label>
+					<input matInput [formControl]="f.symbol" [placeholder]="'Enter symbol'">
+				</mat-form-field>
+			</form>
 		</div>
 
 		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
