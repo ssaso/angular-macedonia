@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CountrySelectorComponent } from './country-selector/country-selector.component';
 import {
@@ -11,7 +18,12 @@ import { ReplaySubject, Observable } from 'rxjs';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -63,6 +75,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatFormFieldModule,
     MatInputModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './tree-selector.component.html',
   styleUrl: './tree-selector.component.scss',
 })
@@ -71,14 +84,17 @@ export class TreeSelectorComponent {
   selectedMonth!: string;
 
   transactionForm = new FormGroup({
-    name: new FormControl(''),
-    weight: new FormControl(''),
+    // name: new FormControl('', [Validators.required, Validators.maxLength(3)]),
+    name: new FormControl('', [Validators.required]),
+    weight: new FormControl(0),
     symbol: new FormControl(''),
   });
 
   get f() {
     return this.transactionForm.controls;
   }
+
+  constructor(private cd: ChangeDetectorRef) {}
 
   resetSelection() {
     this.selectedContry = '';
@@ -115,16 +131,40 @@ export class TreeSelectorComponent {
   ];
   dataToDisplay = [...ELEMENT_DATA];
 
+  weight = 'Weight';
+
   // dataSource = new ExampleDataSource(this.dataToDisplay);
   dataSource = new MatTableDataSource<PeriodicElement>(this.dataToDisplay);
 
   addData() {
-    const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
-    this.dataToDisplay = [
-      ...this.dataToDisplay,
-      ELEMENT_DATA[randomElementIndex],
-    ];
-    this.dataSource.data = [...ELEMENT_DATA];
+    // const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
+    // this.dataToDisplay = [
+    //   ...this.dataToDisplay,
+    //   ELEMENT_DATA[randomElementIndex],
+    // ];
+
+    this.prepareForm();
+    this.transactionForm.reset();
+
+    // this.weight = 'TEST WEIGHT';
+    // this.cd.detectChanges();
+
+    // this.dataSource.data = [...this.dataSource.data];
+  }
+
+  prepareForm() {
+    if (this.transactionForm.valid) {
+      const newItem = {
+        position: this.dataSource.data.length + 1,
+        name: this.f.name.value ?? '',
+        symbol: this.f.symbol.value ?? '',
+        weight: this.f.weight.value ?? 0,
+      };
+      this.dataSource.data.push(newItem);
+      this.dataSource._updateChangeSubscription();
+    } else {
+      console.error('form not valid');
+    }
   }
 
   removeData() {

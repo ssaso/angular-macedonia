@@ -31,7 +31,7 @@
 	<!-- Transaction selector -->
 	<ng-container *ngIf="selectedContry && selectedMonth && !selectedTransaction">
 		<div class="demo-button-container">
-			<button mat-raised-button (click)="addData()" class="demo-button">
+			<button mat-raised-button (click)="addData()" class="demo-button" [disabled]="!transactionForm.valid">
 				Add data
 			</button>
 			<button mat-raised-button [disabled]="!dataToDisplay.length" (click)="removeData()" class="demo-button">
@@ -46,10 +46,14 @@
 				<mat-form-field>
 					<mat-label>Input</mat-label>
 					<input matInput [formControl]="f.name" [placeholder]="'Enter name'">
+					<!-- <mat-error *ngIf="f.name.errors?.['requred']">{{ f.name.errors?.['requred']
+						}}</mat-error> -->
+					<!-- <mat-error> {{f.name.errors | json}}</mat-error> -->
+					<mat-error> Name is required</mat-error>
 				</mat-form-field>
 
 				<mat-form-field>
-					<mat-label>Weight</mat-label>
+					<mat-label>{{weight}}</mat-label>
 					<input matInput [formControl]="f.weight" [placeholder]="'Enter weight'">
 				</mat-form-field>
 
