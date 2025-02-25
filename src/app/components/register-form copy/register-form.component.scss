@@ -1,0 +1,20 @@
+:host {}
+
+.register-card {
+	max-width: 400px;
+	margin: 2rem auto;
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.full-width {
+	width: 100%;
+}
+
+.button-group {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 1rem;
+}

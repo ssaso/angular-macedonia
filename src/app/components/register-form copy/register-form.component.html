@@ -1,0 +1,39 @@
+<mat-card class="register-card">
+	<h2>Register</h2>
+
+	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+		<mat-form-field appearance="outline" class="full-width">
+			<mat-label>Name</mat-label>
+			<input matInput formControlName="name" type="text" required />
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="full-width">
+			<mat-label>Email</mat-label>
+			<input matInput formControlName="email" type="email" required />
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="full-width">
+			<mat-label>Password</mat-label>
+			<input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" required />
+			<button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+				<mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+			</button>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="full-width">
+			<mat-label>Country</mat-label>
+			<mat-select formControlName="country">
+				<mat-option value="usa">United States</mat-option>
+				<mat-option value="uk">United Kingdom</mat-option>
+				<mat-option value="germany">Germany</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-checkbox formControlName="newsletter">Subscribe to newsletter</mat-checkbox>
+
+		<div class="button-group">
+			<button mat-flat-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+			<button mat-stroked-button type="reset" (click)="registerForm.reset()">Clear</button>
+		</div>
+	</form>
+</mat-card>

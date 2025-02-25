@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { TeamsComponent } from './components/teams/teams.component';
+import { RegisterFormComponent } from './components/register-form/register-form.component';
+import { RegisterFormCopyComponent } from './components/register-form copy/register-form.component';
 
 export const routes: Routes = [
   {
@@ -10,6 +12,14 @@ export const routes: Routes = [
   {
     path: 'teams',
     component: TeamsComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterFormComponent,
+  },
+  {
+    path: 'register2',
+    component: RegisterFormCopyComponent,
   },
   {
     path: 'players',
